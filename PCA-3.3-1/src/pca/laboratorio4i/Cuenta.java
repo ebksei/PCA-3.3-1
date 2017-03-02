@@ -50,11 +50,22 @@ class Cuenta {
 		}
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public String getCodigo() throws InterruptedException {
+		semaforo.acquire();
+		try {
+			return codigo;
+		} finally {
+			semaforo.release();
+		}
+
 	}
 
-	public int getSaldo() {
-		return saldo;
+	public int getSaldo() throws InterruptedException {
+		semaforo.acquire();
+		try {
+			return saldo;
+		} finally {
+			semaforo.release();
+		}
 	}
 }

@@ -3,6 +3,7 @@ package pca.laboratorio4i;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CyclicBarrier;
 
 class Banco {
 
@@ -17,10 +18,12 @@ class Banco {
 		Cuenta cuenta2 = new Cuenta("2222222222");
 		mapaCuentas.put("2222222222", cuenta2);
 
-		BarreraCiclica barrera = new BarreraCiclica(NUM_CAJEROS);
+		//BarreraCiclica barrera = new BarreraCiclica(NUM_CAJEROS);
+		CyclicBarrier cb = new CyclicBarrier(NUM_CAJEROS);
+		
 		cajeros = new Cajero[NUM_CAJEROS];
 		for (int i = 0; i < cajeros.length; i++) {
-			cajeros[i] = new Cajero(i, this, barrera);
+			cajeros[i] = new Cajero(i, this, cb);
 		}
 	}
 

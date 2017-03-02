@@ -1,12 +1,18 @@
 package pca.laboratorio4i;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 class Cajero extends Thread {
 
 	private int idCajero;
 	private Banco banco;
-	private BarreraCiclica barrera;
+	//private BarreraCiclica barrera;
+	private CyclicBarrier barrera;
 
-	public Cajero(int idCajero, Banco banco, BarreraCiclica barrera) {
+	public Cajero(int idCajero, Banco banco, CyclicBarrier barrera) {
 		this.idCajero = idCajero;
 		this.banco = banco;
 		this.barrera = barrera;
@@ -69,7 +75,7 @@ class Cajero extends Thread {
 
 				//-------------------------------------------------------------
 				// Barrera
-				barrera.esperar(idCajero);
+				barrera.await();
 
 				//-------------------------------------------------------------
 				// Retirar
@@ -106,6 +112,8 @@ class Cajero extends Thread {
 			}
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();
+		} catch (BrokenBarrierException ex) {
+			Logger.getLogger(Cajero.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 	

@@ -111,6 +111,7 @@ class Cajero extends Thread {
 	
 	public void run() {
 		// TODO 4: Cambiar a ejecutar2()
-		this.ejecutar1();
+		//this.ejecutar1();
+		this.ejecutar2();
 	}
 }

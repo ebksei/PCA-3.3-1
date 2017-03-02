@@ -12,7 +12,7 @@ class Cuenta {
 	public Cuenta(String codigo) {
 		this.codigo = codigo;
 		saldo = 0;
-		semaforo = new Semaphore(0);
+		semaforo = new Semaphore(1);
 	}
 
 	public void ingresar(int cantidad) throws CuentaException {

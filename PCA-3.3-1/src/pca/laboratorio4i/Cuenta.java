@@ -15,46 +15,38 @@ class Cuenta {
 		semaforo = new Semaphore(1);
 	}
 
-	public void ingresar(int cantidad) throws CuentaException {
+	public void ingresar(int cantidad) throws CuentaException, InterruptedException {
+		semaforo.acquire();
 		try {
-			semaforo.acquire();
-			try {
-				if (cantidad < 0) {
-					throw new CuentaException(codigo,
-							"Ingreso de cantidad " + cantidad + " negativa");
-				}
-				saldo = saldo + cantidad;
-			} finally {
-				semaforo.release();
+			if (cantidad < 0) {
+				throw new CuentaException(codigo,
+						"Ingreso de cantidad " + cantidad + " negativa");
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			saldo = saldo + cantidad;
+		} finally {
+			semaforo.release();
 		}
 	}
 
-	public void retirar(int cantidad) throws CuentaException {
+	public void retirar(int cantidad) throws CuentaException, InterruptedException {
+		semaforo.acquire();
 		try {
-			semaforo.acquire();
-			try {
-				if (cantidad < 0) {
-					throw new CuentaException(codigo,
-							"Retirada de cantidad " + cantidad + " negativa");
-				}
-				if (cantidad > saldo) {
-					throw new CuentaException(codigo,
-							"Saldo " + saldo + " insuficiente"
-							+ " para retirada de " + cantidad);
-				}
-				saldo = saldo - cantidad;
-				if (saldo < 0) {
-					throw new CuentaException(codigo,
-							"ERROR FATAL: Saldo " + saldo + " negativo");
-				}
-			} finally {
-				semaforo.release();
+			if (cantidad < 0) {
+				throw new CuentaException(codigo,
+						"Retirada de cantidad " + cantidad + " negativa");
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			if (cantidad > saldo) {
+				throw new CuentaException(codigo,
+						"Saldo " + saldo + " insuficiente"
+						+ " para retirada de " + cantidad);
+			}
+			saldo = saldo - cantidad;
+			if (saldo < 0) {
+				throw new CuentaException(codigo,
+						"ERROR FATAL: Saldo " + saldo + " negativo");
+			}
+		} finally {
+			semaforo.release();
 		}
 	}
 

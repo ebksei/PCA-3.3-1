@@ -1,7 +1,6 @@
 package pca.laboratorio4i;
 
 // TODO 5: Implementar la barrera ciclica
-
 import java.util.concurrent.Semaphore;
 
 class BarreraCiclica {
@@ -13,17 +12,17 @@ class BarreraCiclica {
 		this.numProcesos = numProcesos;
 		this.semaforos = new Semaphore[numProcesos];
 		for (int i = 0; i < numProcesos; i++) {
-			this.semaforos[i]=new Semaphore(0);
+			this.semaforos[i] = new Semaphore(0);
 		}
 	}
 
 	public void esperar(int idProceso) throws InterruptedException {
 		for (int i = 0; i < numProcesos; i++) {
-			if(i!=idProceso){
+			if (i != idProceso) {
 				this.semaforos[i].release();
 			}
 		}
-		for (int i = 0; i < numProcesos-1; i++) {
+		for (int i = 0; i < numProcesos - 1; i++) {
 			this.semaforos[idProceso].acquire();
 		}
 	}
